@@ -64,8 +64,8 @@ const _isBoundingBoxPositive = (boundingBox) =>
 const _clearCanvas = (context) =>
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-const _drawImage = (video, context) =>
-  context.drawImage(video, 0, 0, context.canvas.width, context.canvas.height);
+// const _drawImage = (video, context) =>
+//   context.drawImage(video, 0, 0, context.canvas.width, context.canvas.height);
 
 const _drawPrediction = (context, bb, emotionRecognizer, state) =>
   _drawEmotionPanel(
