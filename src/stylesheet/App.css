@@ -1,3 +1,35 @@
-video {
+/* video {
   display: none;
+} */
+
+.scroller-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right:0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.scroller-image {
+  position: absolute;
+  bottom: -100%;
+  opacity: 0;
+  width: 100%;
+  height: auto;
+  transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+.scroller-image.visible {
+  transform: translateY(-100%);
+  opacity: 1;
+}
+
+.scroller-image.hidden {
+  transform: translateY(100%);
+  opacity: 0;
 }

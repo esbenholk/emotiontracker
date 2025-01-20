@@ -1,11 +1,11 @@
 const EMOTIONS = [
-  "😡 angry : ",
-  "🤮 disgust : ",
-  "😨 fear : ",
-  "😄 happy : ",
-  "😐 neutral : ",
-  "😭 sad : ",
-  "😯 surprise : ",
+  "angry",
+  "disgust",
+  "fear",
+  "happy",
+  "neutral",
+  "sad",
+  "surprise",
 ];
 
 const NO_MODEL= "❌ model not loaded yet";

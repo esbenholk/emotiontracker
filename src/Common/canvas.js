@@ -11,7 +11,6 @@ const _setRectStyle = (context) => {
 };
 
 const _drawRect = (context, boundingBox) => {
-  // rectangle draw all around the face
   context.beginPath();
   _setRectStyle(context);
   const { x, y, width } = _getRectDim(boundingBox, context);
@@ -25,6 +24,7 @@ const _getFace = (context, boundingBox) => {
   const height = boundingBox.height * context.canvas.height;
   return context.getImageData(x, y, width, height);
 };
+
 const _setFillStyle = (context, color) => (context.fillStyle = color);
 
 const _getRectDim = (boundingBox, context) => {
@@ -64,15 +64,14 @@ const _isBoundingBoxPositive = (boundingBox) =>
 const _clearCanvas = (context) =>
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-// const _drawImage = (video, context) =>
-//   context.drawImage(video, 0, 0, context.canvas.width, context.canvas.height);
+const _drawImage = (video, context) =>
+  context.drawImage(video, 0, 0, context.canvas.width, context.canvas.height);
 
-const _drawPrediction = (context, bb, emotionRecognizer, state) =>
-  _drawEmotionPanel(
-    context,
-    bb,
-    predict(emotionRecognizer, state, _getFace(context, bb))
-  );
+const _drawPrediction = (context, bb, emotionRecognizer, state) => {
+  const prediction = predict(emotionRecognizer, state, _getFace(context, bb));
+  _drawEmotionPanel(context, bb, prediction);
+  return prediction;
+};
 
 const drawOnCanvas = (
   state,
@@ -82,15 +81,19 @@ const drawOnCanvas = (
   emotionRecognizer
 ) => {
   _clearCanvas(context);
-  // _drawImage(video, context);
+  _drawImage(video, context);
+
+  const predictions = []; // Array to hold predictions for each bounding box
+
   for (let bb of boundingBox) {
-    // recuperation of all values into boundingBox (coordinate of face)
     _drawRect(context, bb);
-    // recuperation of face only if boundingBox has valuable coordinates
     if (_isBoundingBoxPositive(bb) && state.isModelSet) {
-      _drawPrediction(context, bb, emotionRecognizer, state);
+      const prediction = _drawPrediction(context, bb, emotionRecognizer, state);
+      predictions.push({ boundingBox: bb, prediction });
     }
   }
+
+  return predictions; // Return the array of predictions
 };
 
 export default drawOnCanvas;

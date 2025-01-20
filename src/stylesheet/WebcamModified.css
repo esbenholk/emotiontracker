@@ -29,6 +29,21 @@ body {
     width:100%;
     font-size: 80%;
 }
+canvas{
+    display: none;
+}
+.emotionPrediction{
+    position: fixed;
+    top: 0;
+    margin: 1vh;
+    padding:0;
+}
+.emotionPrediction p{
+
+    margin: 0;
+    padding:0;
+}
+
 
 video{
     position: fixed;

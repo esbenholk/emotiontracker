@@ -8,7 +8,7 @@ import VideoOnCanvas from "./VideoOnCanvas";
 import SwitchCamera from "./SwitchCamera";
 import { FACE_DETECTION_PROPS } from "../Constants/faceDetection.constant";
 import { loadModel } from "../Common/tensorflowModel";
-
+import EmotionScroller from "./emotionScroller";
 
 const _init_state = {
   model: null,
@@ -18,6 +18,9 @@ const _init_state = {
 const ManageVideoOnCanvas = () => {
   const { webcamRef, boundingBox } = useFaceDetection(FACE_DETECTION_PROPS);
   let canvasRef = useRef(null);
+  const [emotionPrediction, setEmotionPrediction] = useState(null);
+  const videoRef = useRef(null);
+
 
   const [state, setState] = useState(_init_state);
   const [constraints, setConstraints] = useState({
@@ -28,13 +31,16 @@ const ManageVideoOnCanvas = () => {
     const context = canvasRef.current.getContext("2d");
     let animationFrameId;
     const render = () => {
-      drawOnCanvas(
+      const predictions = drawOnCanvas(
         state,
         context,
         webcamRef.current.video,
         boundingBox,
         state.model
       );
+      setEmotionPrediction(predictions);
+      console.log(predictions);
+      
       animationFrameId = window.requestAnimationFrame(render);
     };
     render();
@@ -50,9 +56,19 @@ const ManageVideoOnCanvas = () => {
     }
   }, [state, setState]);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      if (emotionPrediction && emotionPrediction.length > 0) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [emotionPrediction]);
+
   return (
     <div>
-      <video  width="640" height="480"  loop autoPlay>
+      <video ref={videoRef} width="640" height="480"  loop autoPlay>
         <source src="/scroll.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -65,6 +81,14 @@ const ManageVideoOnCanvas = () => {
         webcamRef={webcamRef}
         constraints={constraints}
       />
+      {emotionPrediction && emotionPrediction.length > 0 && <>
+        <div className="emotionPrediction">
+            <p>{emotionPrediction[0].prediction}</p>
+        </div>
+        <EmotionScroller emotion={emotionPrediction[0].prediction}/>
+      </>}
+
+
 
     </div>
   );
