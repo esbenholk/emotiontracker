@@ -4,7 +4,14 @@ import "../stylesheet/App.css";
 
 const emotionImages = [
   [
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png"
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
+
   ],
   [
     "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363975/fakenewscentral/j1wrujdzn5zcsess5d8k.png"
@@ -15,12 +22,12 @@ const emotionImages = [
 ];
 
 const EmotionScroller = ( emotion ) => {
-  const [currentImages, setCurrentImages] = useState([]);
+  const [currentImages, setCurrentImages] = useState(emotionImages[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     // Update the current images when the emotion changes
-    console.log(emotion);
+
     
     if (emotion.emotion.includes("angry")) {
       setCurrentImages(emotionImages[0]);

@@ -17,19 +17,26 @@
 
 .scroller-image {
   position: absolute;
-  bottom: -100%;
-  opacity: 0;
-  width: 100%;
+  width: 95%;
   height: auto;
-  transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+  top: 150%;
+
 }
 
+
+
 .scroller-image.visible {
-  transform: translateY(-100%);
-  opacity: 1;
+  /* opacity: 1; */
+  /* top: 0; */
+  animation: scroll;
+  animation-duration:4s;
+}
+
+@keyframes scroll {
+  from {top: 150%;}
+  to {top: -100%;}
 }
 
 .scroller-image.hidden {
-  transform: translateY(100%);
-  opacity: 0;
+  display: none;
 }
