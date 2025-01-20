@@ -7,7 +7,7 @@ import {
 
 const _setRectStyle = (context) => {
   context.lineWidth = "5";
-  context.strokeStyle = "#39ff14";
+  context.strokeStyle = "blue";
 };
 
 const _drawRect = (context, boundingBox) => {
@@ -82,7 +82,7 @@ const drawOnCanvas = (
   emotionRecognizer
 ) => {
   _clearCanvas(context);
-  _drawImage(video, context);
+  // _drawImage(video, context);
   for (let bb of boundingBox) {
     // recuperation of all values into boundingBox (coordinate of face)
     _drawRect(context, bb);

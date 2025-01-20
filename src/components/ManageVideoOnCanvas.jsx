@@ -52,6 +52,10 @@ const ManageVideoOnCanvas = () => {
 
   return (
     <div>
+      <video  width="640" height="480"  loop autoPlay>
+        <source src="/scroll.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
       <SwitchCamera
         setConstraints={setConstraints}
         isModelLoaded={state.isModelSet}
@@ -61,6 +65,7 @@ const ManageVideoOnCanvas = () => {
         webcamRef={webcamRef}
         constraints={constraints}
       />
+
     </div>
   );
 };
