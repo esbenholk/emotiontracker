@@ -2,41 +2,34 @@
   display: none;
 } */
 
-.scroller-container {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right:0;
+
+.ticker-container {
+
+
   overflow: hidden;
+  position: relative;
+
+}
+
+.ticker {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  will-change: transform;
+  align-items: center;
+}
+
+.ticker-item {
+  flex-shrink: 0;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 
-.scroller-image {
-  position: absolute;
-  width: 95%;
-  height: auto;
-  top: 150%;
-
-}
-
-
-
-.scroller-image.visible {
-  /* opacity: 1; */
-  /* top: 0; */
-  animation: scroll;
-  animation-duration:4s;
-}
-
-@keyframes scroll {
-  from {top: 150%;}
-  to {top: -100%;}
-}
-
-.scroller-image.hidden {
-  display: none;
+.carouselimage {
+  width: 300px;
+  height: 300px;
+  padding-bottom: 100px;
+  padding-top: 100px;
 }

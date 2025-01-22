@@ -15,12 +15,33 @@ const _init_state = {
   isModelSet: false,
 };
 
+
+const emotionImages = [
+  [
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
+
+  ],
+  [
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363975/fakenewscentral/j1wrujdzn5zcsess5d8k.png"
+  ],
+  [
+    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363998/fakenewscentral/q0oa6vr04jc7uo7ftxdy.png"
+  ],
+];
+
+
 const ManageVideoOnCanvas = () => {
   const { webcamRef, boundingBox } = useFaceDetection(FACE_DETECTION_PROPS);
   let canvasRef = useRef(null);
   const [emotionPrediction, setEmotionPrediction] = useState(null);
   const videoRef = useRef(null);
-
+  const [localEmotion, setLocalEmotion] = useState("");
 
   const [state, setState] = useState(_init_state);
   const [constraints, setConstraints] = useState({
@@ -39,13 +60,15 @@ const ManageVideoOnCanvas = () => {
         state.model
       );
       setEmotionPrediction(predictions);
-      console.log(predictions);
+      if (predictions.length > 0 && localEmotion !== predictions[0].prediction) {
+        setLocalEmotion(predictions[0].prediction);
+      }
       
       animationFrameId = window.requestAnimationFrame(render);
     };
     render();
     return window.cancelAnimationFrame(animationFrameId);
-  }, [canvasRef, webcamRef, boundingBox, state]);
+  }, [canvasRef, webcamRef, boundingBox, state, localEmotion]);
 
   useEffect(() => {
     if (!state.isModelSet) {
@@ -68,7 +91,7 @@ const ManageVideoOnCanvas = () => {
 
   return (
     <div>
-      <video ref={videoRef} width="640" height="480"  loop autoPlay>
+      <video ref={videoRef} width="640" height="480" className="video" loop autoPlay>
         <source src="/scroll.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -85,8 +108,13 @@ const ManageVideoOnCanvas = () => {
         <div className="emotionPrediction">
             <p>{emotionPrediction[0].prediction}</p>
         </div>
-        <EmotionScroller emotion={emotionPrediction[0].prediction}/>
+        {localEmotion.includes("happy") ? <EmotionScroller images={emotionImages[0]}/> : 
+              localEmotion.includes("angry") ? <EmotionScroller images={emotionImages[1]}/>
+        : <EmotionScroller images={emotionImages[2]}/>}
       </>}
+      
+
+
 
 
 

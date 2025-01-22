@@ -1,67 +1,93 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../stylesheet/App.css";
 
 
-const emotionImages = [
-  [
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
 
-  ],
-  [
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363975/fakenewscentral/j1wrujdzn5zcsess5d8k.png"
-  ],
-  [
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363998/fakenewscentral/q0oa6vr04jc7uo7ftxdy.png"
-  ],
-];
+const EmotionScroller = ( currentImages ) => {
+  const [isPaused, setIsPaused] = useState(false);
+  const pauseInterval = 1500;
+  const repeats = [1,2,3,4,5];
 
-const EmotionScroller = ( emotion ) => {
-  const [currentImages, setCurrentImages] = useState(emotionImages[0]);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    // Update the current images when the emotion changes
 
+  // useEffect(() => {
+  //   // Update the current images when the emotion changes
+  //   if(emotion != localEmotion){
+  //     setLocalEmotion(emotion);
+  //     if (emotion.emotion.includes("angry")) {
+  //       setCurrentImages(emotionImages[0]);
+  //     } else if(emotion.emotion.includes("happy")){
+  //         setCurrentImages(emotionImages[1]);
+  //     } else {
+  //         setCurrentImages(emotionImages[2]);
+  //     }
+
+  //   }
     
-    if (emotion.emotion.includes("angry")) {
-      setCurrentImages(emotionImages[0]);
-      setCurrentIndex(0); // Reset index for new emotion
-    } else if(emotion.emotion.includes("happy")){
-        setCurrentImages(emotionImages[1]);
-        setCurrentIndex(0); // Reset index for new emotion
-    } else {
-        setCurrentImages(emotionImages[2]);
-        setCurrentIndex(0); // Reset index for new emotion
-    }
-  }, [emotion]);
+
+  // }, [emotion]);
+
+  const tickerRef = useRef(null);
+  const speed = 10; // pixels per frame
 
   useEffect(() => {
-    if (currentImages.length === 0) return;
+    let animationFrame;
+    let startTime;
 
+    const scrollTicker = (timestamp) => {
+      if (!isPaused) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const offset = (elapsed * speed) / 16; // Approximation for 60fps
+
+        if (tickerRef.current) {
+          tickerRef.current.style.transform = `translateY(-${offset}px)`;
+
+          const firstChild = tickerRef.current.firstElementChild;
+          if (offset >= firstChild.offsetHeight) {
+            startTime = null; // Reset startTime to loop
+            tickerRef.current.appendChild(firstChild);
+            tickerRef.current.style.transform = 'translateY(0)';
+          }
+        }
+      }
+      animationFrame = requestAnimationFrame(scrollTicker);
+    };
+
+    animationFrame = requestAnimationFrame(scrollTicker);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [speed, isPaused]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % currentImages.length);
-    }, 3000); // Change image every 3 seconds
+      setIsPaused((prev) => !prev);
+      
+    }, pauseInterval);
 
     return () => clearInterval(interval);
-  }, [currentImages]);
+  }, []);
+
+
+
 
   return (
-    <div className="scroller-container">
-      {currentImages.map((img, index) => (
-        <img
-          key={index}
-          src={img}
-          alt={emotion}
-          className={`scroller-image ${index === currentIndex ? "visible" : "hidden"}`}
-        />
-      ))}
-    </div>
+      <div className="ticker-container">
+        <div className="ticker" ref={tickerRef}>
+          {repeats.map((num,index)=>(
+            <>
+              {currentImages.images.map((img, index) => (
+                    <img
+                      key={index}
+                      src={img}
+                      alt={img}
+                      className={`carouselimage`}
+                    />
+            ))}
+            </>
+          ))}
+          
+        </div>
+      </div>
   );
 };
 
