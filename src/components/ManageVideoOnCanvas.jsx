@@ -111,24 +111,31 @@ const ManageVideoOnCanvas = () => {
       {emotionPrediction && emotionPrediction.length > 0 && <>
         <div className="emotionPrediction">
             <p>{emotionPrediction[0].prediction}</p>
+        
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("happy") ? 1 : 0}}>
           <EmotionScroller images={happyimageList}/>
+          <p>PURE DELULU</p>
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion && localEmotion.includes("angry") ? 1 : 0}}>
           <EmotionScroller images={angryimageList}/>
+          <p>RAGEBAIT ME</p>
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion && localEmotion.includes("neutral") ? 1 : 0}}>
           <EmotionScroller images={neutralimageList}/>
+          <p>R U HERE?</p>
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("sad") ? 1 : 0}}>
           <EmotionScroller images={sadimageList}/>
+          <p>DOOMROT</p>
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("surprise") ? 1 : 0}}>
           <EmotionScroller images={surprisedimageList}/>
+          <p>NEW NEW HEAR ALL ABOUT IT</p>
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("fear") ? 1 : 0}}>
           <EmotionScroller images={fearimageList}/>
+          <p>R U ALSO SCARED?</p>
       </div>
       
 
