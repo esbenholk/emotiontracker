@@ -22,6 +22,7 @@ const EmotionScroller = ( currentImages, isLive ) => {
             tickerRef.current.style.transform = `translateY(-${offset}px)`;
 
             const firstChild = tickerRef.current.firstElementChild;
+            
             if (firstChild != null && offset >= firstChild.offsetHeight + 100) {
               startTime = null; // Reset startTime to loop
               tickerRef.current.appendChild(firstChild);
@@ -52,13 +53,10 @@ const EmotionScroller = ( currentImages, isLive ) => {
       (entries) => {
         entries.forEach((entry) => {
           const video = entry.target;
-
-          console.log("has video", video);
-          
+  
           if (video.tagName === "VIDEO") {
             if (entry.isIntersecting) {
 
-              console.log("intersects");
               if(video != null){
                 video.play(); // Play video when in view
               }

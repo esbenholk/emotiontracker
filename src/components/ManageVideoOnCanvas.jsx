@@ -50,24 +50,6 @@ const ManageVideoOnCanvas = () => {
   });
 
   useEffect(() => {
-
-  let amount = happyimageList.length
-   for (let index = 0; index < amount; index++) {
-    const element = happyimageList[index];
-    console.log("has happy image", element);
-   }
-  }, []);
-
-  // useEffect(()=>{
-  //   fetch(`https://meannews.netlify.app/api/cloudinary/recent?folder=brainrothappy`)
-  //   .then(response => response.json())
-  //   .then(data => {
-  //       console.log("CLOUD DATA", data); 
-  //   });
-  // }, [])
-
-
-  useEffect(() => {
     const context = canvasRef.current.getContext("2d");
     let animationFrameId;
     const render = () => {
@@ -124,39 +106,39 @@ const ManageVideoOnCanvas = () => {
         constraints={constraints}
       />
 
+      
+
       {emotionPrediction && emotionPrediction.length > 0 && <>
-        
-
-        <div className="opacitytoggler" style={{opacity: localEmotion.includes("happy") ? 1 : 0}}>
-          <EmotionScroller images={happyimageList}/>
-        </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion.includes("angry") ? 1 : 0}}>
-          <EmotionScroller images={angryimageList}/>
-        </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion.includes("neutral") ? 1 : 0}}>
-          <EmotionScroller images={neutralimageList}/>
-        </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion.includes("sad") ? 1 : 0}}>
-          <EmotionScroller images={sadimageList}/>
-        </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion.includes("surprise") ? 1 : 0}}>
-          <EmotionScroller images={surprisedimageList}/>
-        </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion.includes("fear") ? 1 : 0}}>
-          <EmotionScroller images={fearimageList}/>
-        </div>
-
-
-        
-
-
-
-
         <div className="emotionPrediction">
             <p>{emotionPrediction[0].prediction}</p>
         </div>
-      </>}
+        <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("happy") ? 1 : 0}}>
+          <EmotionScroller images={happyimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion && localEmotion.includes("angry") ? 1 : 0}}>
+          <EmotionScroller images={angryimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion && localEmotion.includes("neutral") ? 1 : 0}}>
+          <EmotionScroller images={neutralimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("sad") ? 1 : 0}}>
+          <EmotionScroller images={sadimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("surprise") ? 1 : 0}}>
+          <EmotionScroller images={surprisedimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("fear") ? 1 : 0}}>
+          <EmotionScroller images={fearimageList}/>
+      </div>
       
+
+       
+      </>}
+
+
+
+
+    
 
 
 
