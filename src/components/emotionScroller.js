@@ -1,91 +1,108 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "../stylesheet/App.css";
 
 
-
-const EmotionScroller = ( currentImages ) => {
-  const [isPaused, setIsPaused] = useState(false);
-  const pauseInterval = 1500;
-  const repeats = [1,2,3,4,5];
-
-
-
-  // useEffect(() => {
-  //   // Update the current images when the emotion changes
-  //   if(emotion != localEmotion){
-  //     setLocalEmotion(emotion);
-  //     if (emotion.emotion.includes("angry")) {
-  //       setCurrentImages(emotionImages[0]);
-  //     } else if(emotion.emotion.includes("happy")){
-  //         setCurrentImages(emotionImages[1]);
-  //     } else {
-  //         setCurrentImages(emotionImages[2]);
-  //     }
-
-  //   }
-    
-
-  // }, [emotion]);
-
+const EmotionScroller = ( currentImages, isLive ) => {
+  // const [isPaused, setIsPaused] = useState(false);
+  // const pauseInterval = 1500;
   const tickerRef = useRef(null);
-  const speed = 10; // pixels per frame
+  const speed = 4; // pixels per frame
 
   useEffect(() => {
     let animationFrame;
     let startTime;
 
-    const scrollTicker = (timestamp) => {
-      if (!isPaused) {
-        if (!startTime) startTime = timestamp;
-        const elapsed = timestamp - startTime;
-        const offset = (elapsed * speed) / 16; // Approximation for 60fps
+    const scrollTicker = (timestamp) => { 
+  
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime; 
+          const offset = (elapsed * speed) / 16; // Approximation for 60fps
 
-        if (tickerRef.current) {
-          tickerRef.current.style.transform = `translateY(-${offset}px)`;
+          if (tickerRef.current) {
+            tickerRef.current.style.transform = `translateY(-${offset}px)`;
 
-          const firstChild = tickerRef.current.firstElementChild;
-          if (offset >= firstChild.offsetHeight) {
-            startTime = null; // Reset startTime to loop
-            tickerRef.current.appendChild(firstChild);
-            tickerRef.current.style.transform = 'translateY(0)';
+            const firstChild = tickerRef.current.firstElementChild;
+            if (firstChild != null && offset >= firstChild.offsetHeight + 100) {
+              startTime = null; // Reset startTime to loop
+              tickerRef.current.appendChild(firstChild);
+              tickerRef.current.style.transform = 'translateY(0)';
+            }
           }
-        }
-      }
+        
+      
       animationFrame = requestAnimationFrame(scrollTicker);
     };
-
     animationFrame = requestAnimationFrame(scrollTicker);
+
     return () => cancelAnimationFrame(animationFrame);
-  }, [speed, isPaused]);
+
+  }, [speed]);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setIsPaused((prev) => !prev);
+      
+  //   }, pauseInterval);
+
+  //   return () => clearInterval(interval);
+  // }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsPaused((prev) => !prev);
-      
-    }, pauseInterval);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
 
-    return () => clearInterval(interval);
+          console.log("has video", video);
+          
+          if (video.tagName === "VIDEO") {
+            if (entry.isIntersecting) {
+
+              console.log("intersects");
+              if(video != null){
+                video.play(); // Play video when in view
+              }
+            } else {
+              if(video != null){
+                video.pause(); // Pause video when out of view
+              }
+            }
+          }
+        });
+      },
+      { root: tickerRef.current, threshold: 0.5 } // Detect when 50% of the video is in view
+    );
+
+    // Observe all video elements
+    const videos = tickerRef.current?.querySelectorAll("video");
+    videos?.forEach((video) => observer.observe(video));
+
+    return () => {
+      // Cleanup observer
+      observer.disconnect();
+    };
   }, []);
-
 
 
 
   return (
       <div className="ticker-container">
         <div className="ticker" ref={tickerRef}>
-          {repeats.map((num,index)=>(
-            <>
               {currentImages.images.map((img, index) => (
+                <div className={`carouselimage`} key={index}> 
+                  
+                  {img.includes(".mp4") ? 
+                    <video src={img} loop/>
+                  :
                     <img
                       key={index}
                       src={img}
-                      alt={img}
-                      className={`carouselimage`}
+                      alt={img} 
                     />
+                }
+            
+                </div>
             ))}
-            </>
-          ))}
-          
         </div>
       </div>
   );

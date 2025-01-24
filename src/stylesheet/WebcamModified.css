@@ -36,12 +36,28 @@ canvas{
     position: fixed;
     top: 0;
     margin: 1vh;
-    padding:0;
+    padding:5px;
+    bottom: 0;
+    left:0;
+    right: 0;
+    border: 2px solid blue;
+    
 }
 .emotionPrediction p{
-
     margin: 0;
     padding:0;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 8vh;
+    color: blue;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    z-index: 99999;
+    mix-blend-mode: exclusion;
+}
+
+.opacitytoggler{
+    transition: opacity 1s ease-in;
 }
 
 

@@ -10,30 +10,32 @@ import { FACE_DETECTION_PROPS } from "../Constants/faceDetection.constant";
 import { loadModel } from "../Common/tensorflowModel";
 import EmotionScroller from "./emotionScroller";
 
+const happyimages = require.context('../happyimages', true);
+const happyimageList = happyimages.keys().map(image => happyimages(image));
+
+const sadimages = require.context('../sadimages', true);
+const sadimageList = sadimages.keys().map(image => sadimages(image));
+
+const fearimages = require.context('../fearimages', true);
+const fearimageList = fearimages.keys().map(image => fearimages(image));
+
+const surprisedimages = require.context('../surprisedimages', true);
+const surprisedimageList = surprisedimages.keys().map(image => surprisedimages(image));
+
+const angryimages = require.context('../angryimages', true);
+const angryimageList = angryimages.keys().map(image => angryimages(image));
+
+const neutralimages = require.context('../angryimages', true);
+const neutralimageList = neutralimages.keys().map(image => neutralimages(image));
+
 const _init_state = {
   model: null,
   isModelSet: false,
 };
 
 
-const emotionImages = [
-  [
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363728/fakenewscentral/iadditudyojyd7ctgmj8.png",
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363947/fakenewscentral/f6yrsfqnc1gxxxoyxgc7.png",
 
-  ],
-  [
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363975/fakenewscentral/j1wrujdzn5zcsess5d8k.png"
-  ],
-  [
-    "https://res.cloudinary.com/dmwpm8iiw/image/upload/v1737363998/fakenewscentral/q0oa6vr04jc7uo7ftxdy.png"
-  ],
-];
+
 
 
 const ManageVideoOnCanvas = () => {
@@ -42,11 +44,28 @@ const ManageVideoOnCanvas = () => {
   const [emotionPrediction, setEmotionPrediction] = useState(null);
   const videoRef = useRef(null);
   const [localEmotion, setLocalEmotion] = useState("");
-
   const [state, setState] = useState(_init_state);
   const [constraints, setConstraints] = useState({
     facingMode: "user",
   });
+
+  useEffect(() => {
+
+  let amount = happyimageList.length
+   for (let index = 0; index < amount; index++) {
+    const element = happyimageList[index];
+    console.log("has happy image", element);
+   }
+  }, []);
+
+  // useEffect(()=>{
+  //   fetch(`https://meannews.netlify.app/api/cloudinary/recent?folder=brainrothappy`)
+  //   .then(response => response.json())
+  //   .then(data => {
+  //       console.log("CLOUD DATA", data); 
+  //   });
+  // }, [])
+
 
   useEffect(() => {
     const context = canvasRef.current.getContext("2d");
@@ -104,13 +123,38 @@ const ManageVideoOnCanvas = () => {
         webcamRef={webcamRef}
         constraints={constraints}
       />
+
       {emotionPrediction && emotionPrediction.length > 0 && <>
+        
+
+        <div className="opacitytoggler" style={{opacity: localEmotion.includes("happy") ? 1 : 0}}>
+          <EmotionScroller images={happyimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion.includes("angry") ? 1 : 0}}>
+          <EmotionScroller images={angryimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion.includes("neutral") ? 1 : 0}}>
+          <EmotionScroller images={neutralimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion.includes("sad") ? 1 : 0}}>
+          <EmotionScroller images={sadimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion.includes("surprise") ? 1 : 0}}>
+          <EmotionScroller images={surprisedimageList}/>
+        </div>
+        <div className="opacitytoggler" style={{opacity: localEmotion.includes("fear") ? 1 : 0}}>
+          <EmotionScroller images={fearimageList}/>
+        </div>
+
+
+        
+
+
+
+
         <div className="emotionPrediction">
             <p>{emotionPrediction[0].prediction}</p>
         </div>
-        {localEmotion.includes("happy") ? <EmotionScroller images={emotionImages[0]}/> : 
-              localEmotion.includes("angry") ? <EmotionScroller images={emotionImages[1]}/>
-        : <EmotionScroller images={emotionImages[2]}/>}
       </>}
       
 
