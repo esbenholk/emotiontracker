@@ -25,7 +25,7 @@ const surprisedimageList = surprisedimages.keys().map(image => surprisedimages(i
 const angryimages = require.context('../angryimages', true);
 const angryimageList = angryimages.keys().map(image => angryimages(image));
 
-const neutralimages = require.context('../angryimages', true);
+const neutralimages = require.context('../neutralimages', true);
 const neutralimageList = neutralimages.keys().map(image => neutralimages(image));
 
 const _init_state = {
@@ -92,10 +92,7 @@ const ManageVideoOnCanvas = () => {
 
   return (
     <div>
-      <video ref={videoRef} width="640" height="480" className="video" loop autoPlay>
-        <source src="/scroll.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+
       <SwitchCamera
         setConstraints={setConstraints}
         isModelLoaded={state.isModelSet}
@@ -107,42 +104,44 @@ const ManageVideoOnCanvas = () => {
       />
 
       
-
       {emotionPrediction && emotionPrediction.length > 0 && <>
         <div className="emotionPrediction">
             <p>{emotionPrediction[0].prediction}</p>
         
         </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("happy") ? 1 : 0}}>
-          <EmotionScroller images={happyimageList}/>
-          <p>PURE DELULU</p>
-        </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion && localEmotion.includes("angry") ? 1 : 0}}>
-          <EmotionScroller images={angryimageList}/>
-          <p>RAGEBAIT ME</p>
-        </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion && localEmotion.includes("neutral") ? 1 : 0}}>
-          <EmotionScroller images={neutralimageList}/>
+        <div className={localEmotion && localEmotion.includes("neutral") ? "opacitytoggler active": "opacitytoggler"} style={{opacity: localEmotion && localEmotion.includes("neutral") ? 1 : 0.05, zIndex: localEmotion &&  localEmotion.includes("neutral") ? 9999 : 0}}>
+          <EmotionScroller images={neutralimageList} speed={localEmotion && localEmotion.includes("neutral") ? 2 : 10}/>
           <p>R U?</p>
         </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("sad") ? 1 : 0}}>
-          <EmotionScroller images={sadimageList}/>
+        <div className={localEmotion && localEmotion.includes("happy") ? "opacitytoggler active": "opacitytoggler"} style={{opacity: localEmotion &&  localEmotion.includes("happy") ? 1 : 0.05, zIndex: localEmotion &&  localEmotion.includes("happy") ? 9999 : 0}}>
+          <EmotionScroller images={happyimageList} speed={localEmotion && localEmotion.includes("happy") ? 2 : 10}/>
+          <p>U DELULU</p>
+        </div>
+        <div className={localEmotion && localEmotion.includes("angry") ? "opacitytoggler active": "opacitytoggler"} style={{opacity: localEmotion && localEmotion.includes("angry") ? 1 : 0.05, zIndex: localEmotion &&  localEmotion.includes("angry") ? 9999 : 0}}>
+          <EmotionScroller images={angryimageList} speed={localEmotion && localEmotion.includes("angry") ? 2 : 10}/>
+          <p>RAGEBAIT</p>
+        </div>
+        <div className={localEmotion && localEmotion.includes("sad") ? "opacitytoggler active": "opacitytoggler"} style={{opacity: localEmotion &&  localEmotion.includes("sad") ? 1 : 0.05, zIndex: localEmotion &&  localEmotion.includes("sad") ? 9999 : 0}}>
+          <EmotionScroller images={sadimageList} speed={localEmotion && localEmotion.includes("sad") ? 2 : 10}/>
           <p>U R DOOM</p>
         </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("surprise") ? 1 : 0}}>
-          <EmotionScroller images={surprisedimageList}/>
+        <div className={localEmotion && localEmotion.includes("surprise") ? "opacitytoggler active": "opacitytoggler"} style={{opacity: localEmotion &&  localEmotion.includes("surprise") ? 1 : 0.05, zIndex: localEmotion &&  localEmotion.includes("surprise") ? 9999 : 0}}>
+          <EmotionScroller images={surprisedimageList} speed={localEmotion && localEmotion.includes("surpise") ? 2 : 10}/>
           <p>R U ALSO LOST?</p>
         </div>
-        <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("fear") ? 1 : 0}}>
-          <EmotionScroller images={fearimageList}/>
+        <div className={localEmotion && localEmotion.includes("fear") ? "opacitytoggler active": "opacitytoggler"} style={{opacity: localEmotion &&  localEmotion.includes("fear") ? 1 : 0.05, zIndex: localEmotion &&  localEmotion.includes("happy") ? 9999 : 0}}>
+          <EmotionScroller images={fearimageList} speed={localEmotion && localEmotion.includes("fear") ? 2 : 10}/>
           <p>R U ALSO SCARED?</p>
       </div>
       
 
        
-      </>}
+      </>} 
 
-
+      <video ref={videoRef} width="640" height="480" className="video" loop autoPlay>
+        <source src="/scroll.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
 
     

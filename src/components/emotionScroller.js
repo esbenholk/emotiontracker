@@ -2,16 +2,15 @@ import React, { useEffect, useRef } from "react";
 import "../stylesheet/App.css";
 
 
-const EmotionScroller = ( currentImages, isLive ) => {
+const EmotionScroller = ( currentImages ) => {
   // const [isPaused, setIsPaused] = useState(false);
   // const pauseInterval = 1500;
   const tickerRef = useRef(null);
-  const speed = 2; // pixels per frame
+  const speed = 2;
 
   useEffect(() => {
     let animationFrame;
-    let startTime;
-
+    let startTime;   
     const scrollTicker = (timestamp) => { 
   
           if (!startTime) startTime = timestamp;
@@ -87,6 +86,21 @@ const EmotionScroller = ( currentImages, isLive ) => {
       <div className="ticker-container">
         <div className="ticker" ref={tickerRef}>
               {currentImages.images.map((img, index) => (
+                <div className={`carouselimage`} key={index}> 
+                  
+                  {img.includes(".mp4") ? 
+                    <video src={img} loop/>
+                  :
+                    <img
+                      key={index}
+                      src={img}
+                      alt={img} 
+                    />
+                }
+            
+                </div>
+            ))}
+            {currentImages.images.map((img, index) => (
                 <div className={`carouselimage`} key={index}> 
                   
                   {img.includes(".mp4") ? 
