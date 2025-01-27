@@ -6,7 +6,7 @@ const EmotionScroller = ( currentImages, isLive ) => {
   // const [isPaused, setIsPaused] = useState(false);
   // const pauseInterval = 1500;
   const tickerRef = useRef(null);
-  const speed = 4; // pixels per frame
+  const speed = 2; // pixels per frame
 
   useEffect(() => {
     let animationFrame;
@@ -23,7 +23,7 @@ const EmotionScroller = ( currentImages, isLive ) => {
 
             const firstChild = tickerRef.current.firstElementChild;
             
-            if (firstChild != null && offset >= firstChild.offsetHeight + 100) {
+            if (firstChild != null && offset >= firstChild.offsetHeight + 25) {
               startTime = null; // Reset startTime to loop
               tickerRef.current.appendChild(firstChild);
               tickerRef.current.style.transform = 'translateY(0)';

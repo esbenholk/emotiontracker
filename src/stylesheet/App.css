@@ -34,8 +34,8 @@
 .carouselimage {
   width: 300px;
 
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 0px;
+  margin-bottom: 25px;
   opacity: 0.9;
   mix-blend-mode: exclusion;
 }

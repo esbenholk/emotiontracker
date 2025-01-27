@@ -123,15 +123,15 @@ const ManageVideoOnCanvas = () => {
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion && localEmotion.includes("neutral") ? 1 : 0}}>
           <EmotionScroller images={neutralimageList}/>
-          <p>R U HERE?</p>
+          <p>R U?</p>
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("sad") ? 1 : 0}}>
           <EmotionScroller images={sadimageList}/>
-          <p>DOOMROT</p>
+          <p>U R DOOM</p>
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("surprise") ? 1 : 0}}>
           <EmotionScroller images={surprisedimageList}/>
-          <p>NEW NEW HEAR ALL ABOUT IT</p>
+          <p>R U ALSO LOST?</p>
         </div>
         <div className="opacitytoggler" style={{opacity: localEmotion &&  localEmotion.includes("fear") ? 1 : 0}}>
           <EmotionScroller images={fearimageList}/>
